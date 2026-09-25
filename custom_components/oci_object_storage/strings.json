@@ -1,0 +1,75 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "This bucket and prefix are already configured.",
+      "reconfigure_successful": "Re-configuration was successful."
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the OCI Object Storage endpoint.",
+      "invalid_bucket_name": "Invalid bucket name.",
+      "invalid_credentials": "Bucket cannot be accessed using the provided access key and secret key.",
+      "invalid_namespace": "Invalid namespace. It contains only lowercase letters and digits.",
+      "invalid_region": "Invalid region. Use an OCI region identifier such as af-johannesburg-1.",
+      "bucket_not_found": "Bucket not found in this namespace and region."
+    },
+    "step": {
+      "user": {
+        "title": "Add OCI Object Storage bucket",
+        "description": "Store Home Assistant backups in an Oracle Cloud Object Storage bucket using the S3 Compatibility API.",
+        "data": {
+          "namespace": "Namespace",
+          "region": "Region",
+          "bucket": "Bucket name",
+          "access_key_id": "Access key",
+          "secret_access_key": "Secret key",
+          "prefix": "Folder prefix (optional)"
+        },
+        "data_description": {
+          "namespace": "Your tenancy's Object Storage namespace. Shown on the bucket details page, or run `oci os ns get`. See [Oracle documentation]({namespace_docs_url}).",
+          "region": "OCI region identifier of the bucket, e.g. af-johannesburg-1.",
+          "bucket": "Bucket must already exist and be writable by the provided credentials.",
+          "access_key_id": "Access key of a Customer Secret Key.",
+          "secret_access_key": "Secret of the Customer Secret Key. It is only shown once when created. See [Oracle documentation]({secret_key_docs_url}).",
+          "prefix": "Optional folder path inside the bucket. Example: backups/homeassistant"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure OCI Object Storage bucket",
+        "description": "Update the bucket settings or rotate the Customer Secret Key. The secret key must be entered again.",
+        "data": {
+          "namespace": "Namespace",
+          "region": "Region",
+          "bucket": "Bucket name",
+          "access_key_id": "Access key",
+          "secret_access_key": "Secret key",
+          "prefix": "Folder prefix (optional)"
+        },
+        "data_description": {
+          "namespace": "Your tenancy's Object Storage namespace. Shown on the bucket details page, or run `oci os ns get`. See [Oracle documentation]({namespace_docs_url}).",
+          "region": "OCI region identifier of the bucket, e.g. af-johannesburg-1.",
+          "bucket": "Bucket must already exist and be writable by the provided credentials.",
+          "access_key_id": "Access key of a Customer Secret Key.",
+          "secret_access_key": "Secret of the Customer Secret Key. It is only shown once when created. See [Oracle documentation]({secret_key_docs_url}).",
+          "prefix": "Optional folder path inside the bucket. Example: backups/homeassistant"
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Cannot connect to the OCI Object Storage endpoint."
+    },
+    "invalid_bucket_name": {
+      "message": "Invalid bucket name."
+    },
+    "invalid_credentials": {
+      "message": "Bucket cannot be accessed using the provided access key and secret key."
+    },
+    "invalid_namespace": {
+      "message": "Invalid namespace. It contains only lowercase letters and digits."
+    },
+    "invalid_region": {
+      "message": "Invalid region. Use an OCI region identifier such as af-johannesburg-1."
+    }
+  }
+}
