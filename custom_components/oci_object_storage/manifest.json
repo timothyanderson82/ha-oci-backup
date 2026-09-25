@@ -11,12 +11,12 @@
   "documentation": "https://github.com/timothyanderson82/ha-oci-backup",
   "integration_type": "service",
   "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/timothyanderson82/ha-oci-backup/issues",
   "loggers": [
     "aiobotocore"
   ],
   "requirements": [
     "aiobotocore==3.7.0"
   ],
-  "version": "0.1.0",
-  "issue_tracker": "https://github.com/timothyanderson82/ha-oci-backup/issues"
+  "version": "0.1.0"
 }

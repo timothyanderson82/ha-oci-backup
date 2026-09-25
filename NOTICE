@@ -1,0 +1,7 @@
+Portions of custom_components/oci_object_storage/ (__init__.py, backup.py and
+config_flow.py) are derived from the cloudflare_r2 integration in Home
+Assistant core (https://github.com/home-assistant/core), which is licensed
+under the Apache License, Version 2.0:
+https://www.apache.org/licenses/LICENSE-2.0
+
+Those files have been modified for OCI Object Storage.

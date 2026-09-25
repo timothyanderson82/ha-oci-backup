@@ -100,3 +100,8 @@ tests on every push and pull request.
 ## Requirements
 
 Built and unit-tested against Home Assistant 2026.9.3 (Python 3.14, aiobotocore 3.7.0).
+
+## Licence
+
+MIT, see [LICENSE](LICENSE). Parts of the integration are adapted from Home
+Assistant core's `cloudflare_r2` integration (Apache-2.0), see [NOTICE](NOTICE).
