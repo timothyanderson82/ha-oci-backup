@@ -1,5 +1,9 @@
 """Verify the wire format the OCI S3 Compatibility API depends on."""
 
+import ssl
+from unittest.mock import patch
+
+from aiobotocore.httpsession import get_cert_path
 from aiobotocore.session import AioSession
 
 from custom_components.oci_object_storage.client import build_endpoint, create_client
@@ -64,3 +68,30 @@ async def test_default_botocore_would_send_crc32(moto_server: str, bucket: str) 
         request = await _capture_put(client, bucket)
 
     assert "x-amz-checksum-crc32" in request["headers"]
+
+
+async def test_ssl_context_avoids_loading_certificates(
+    moto_server: str, bucket: str
+) -> None:
+    """With a pre-built SSL context, no CA bundle is read on the event loop."""
+    ssl_context = ssl.create_default_context()
+
+    async def first_request(**kwargs) -> None:
+        async with create_client(
+            endpoint_url=moto_server,
+            region=REGION,
+            access_key_id="x",
+            secret_access_key="x",
+            **kwargs,
+        ) as client:
+            await client.head_bucket(Bucket=bucket)
+
+    with patch(
+        "aiobotocore.httpsession.get_cert_path", wraps=get_cert_path
+    ) as cert_path:
+        await first_request(ssl_context=ssl_context)
+        assert cert_path.call_count == 0
+
+        # Control: the default session loads the CA bundle on first request
+        await first_request()
+        assert cert_path.call_count == 1

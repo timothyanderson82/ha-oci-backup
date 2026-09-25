@@ -20,6 +20,7 @@ from homeassistant.helpers.selector import (
     TextSelectorConfig,
     TextSelectorType,
 )
+from homeassistant.util.ssl import get_default_context
 
 from .client import NAMESPACE_PATTERN, REGION_PATTERN, build_endpoint, create_client
 from .const import (
@@ -85,6 +86,7 @@ async def _validate(data: dict[str, Any]) -> dict[str, str]:
             region=data[CONF_REGION],
             access_key_id=data[CONF_ACCESS_KEY_ID],
             secret_access_key=data[CONF_SECRET_ACCESS_KEY],
+            ssl_context=get_default_context(),
         ) as client:
             await client.head_bucket(Bucket=data[CONF_BUCKET])
     except ClientError as err:

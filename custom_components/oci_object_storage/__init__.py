@@ -13,6 +13,7 @@ from botocore.exceptions import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
+from homeassistant.util.ssl import get_default_context
 
 from .client import build_endpoint, create_client
 from .const import (
@@ -41,6 +42,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: OCIConfigEntry) -> bool:
         region=data[CONF_REGION],
         access_key_id=data[CONF_ACCESS_KEY_ID],
         secret_access_key=data[CONF_SECRET_ACCESS_KEY],
+        ssl_context=get_default_context(),
     ).__aenter__()
     try:
         await client.head_bucket(Bucket=data[CONF_BUCKET])
