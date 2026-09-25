@@ -1,0 +1,22 @@
+{
+  "domain": "oci_object_storage",
+  "name": "OCI Object Storage",
+  "codeowners": [
+    "@timothyanderson82"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "backup"
+  ],
+  "documentation": "https://github.com/timothyanderson82/ha-oci-backup",
+  "integration_type": "service",
+  "iot_class": "cloud_push",
+  "loggers": [
+    "aiobotocore"
+  ],
+  "requirements": [
+    "aiobotocore==3.7.0"
+  ],
+  "version": "0.1.0",
+  "issue_tracker": "https://github.com/timothyanderson82/ha-oci-backup/issues"
+}
