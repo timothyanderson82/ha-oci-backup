@@ -45,20 +45,22 @@ credentials, simple and multipart uploads with content verification, aborting a
 multipart upload, listing and deletion, all under a temporary `_smoke_test/`
 folder that it then removes.
 
-## 3. Deploy
+## 3. Install
+
+### With HACS (recommended)
+
+1. HACS → ⋮ → **Custom repositories** → add
+   `https://github.com/timothyanderson82/ha-oci-backup`, type **Integration**.
+2. Find **OCI Object Storage** in HACS → **Download**, then restart Home Assistant.
+3. Settings → Devices & services → Add integration → **OCI Object Storage**.
+
+HACS installs the latest GitHub release and shows new releases as updates in
+Settings → Updates.
+
+### Manually
 
 Copy `custom_components/oci_object_storage/` into your Home Assistant config
-directory's `custom_components/`, then restart Home Assistant. For example, for
-a Docker install:
-
-```bash
-rsync -a --delete --exclude __pycache__ \
-  custom_components/oci_object_storage/ \
-  <user>@<ha-host>:<ha-config-dir>/custom_components/oci_object_storage/
-ssh <user>@<ha-host> docker restart homeassistant
-```
-
-Then go to Settings → Devices & services → Add integration → **OCI Object Storage**.
+directory's `custom_components/`, then restart Home Assistant.
 
 ## 4. Configure backups
 
@@ -81,6 +83,19 @@ uv pip install --python .venv "homeassistant==2026.9.3" \
 Tests run the integration inside HA's test harness against a local moto S3
 server. They include checks that uploads carry no checksum headers, use
 path-style URLs and are signed for the OCI region.
+
+## Releasing
+
+1. Bump `version` in `custom_components/oci_object_storage/manifest.json` and commit.
+2. Tag and publish a release; the tag must match the manifest version:
+   ```bash
+   git tag v0.2.0 && git push origin main v0.2.0
+   gh release create v0.2.0 --generate-notes
+   ```
+3. Home Assistant shows the update through HACS.
+
+CI (`.github/workflows/validate.yml`) runs hassfest, HACS validation and the
+tests on every push and pull request.
 
 ## Requirements
 
