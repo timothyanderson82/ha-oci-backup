@@ -1,17 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <linearGradient id="body" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#6A625B"/>
-      <stop offset="0.45" stop-color="#8C837B"/>
-      <stop offset="1" stop-color="#6A625B"/>
-    </linearGradient>
-  </defs>
-  <path d="M60 128 L116 452 A140 42 0 0 0 396 452 L452 128 Z" fill="url(#body)"/>
-  <ellipse cx="256" cy="128" rx="196" ry="60" fill="#E0584A"/>
-  <ellipse cx="256" cy="132" rx="170" ry="45" fill="#3A3531"/>
-  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round">
-    <polygon points="186.0,246.0 234.5,330.0 137.5,330.0"/>
-    <polygon points="378.0,296.0 353.0,339.3 303.0,339.3 278.0,296.0 303.0,252.7 353.0,252.7"/>
-    <circle cx="256" cy="402" r="40"/>
+  <g fill="none" stroke="#E2664F" stroke-width="34" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M162 176 V132 Q162 88 206 88 H306 Q350 88 350 132 V176"/>
+    <path d="M66 190 H446 L394 474 H118 Z"/>
   </g>
+  <rect x="190" y="52" width="132" height="64" rx="26" fill="#E2664F"/>
 </svg>
