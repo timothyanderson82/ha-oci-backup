@@ -9,6 +9,9 @@
   <path d="M60 128 L116 452 A140 42 0 0 0 396 452 L452 128 Z" fill="url(#body)"/>
   <ellipse cx="256" cy="128" rx="196" ry="60" fill="#C74634"/>
   <ellipse cx="256" cy="132" rx="170" ry="45" fill="#1C1917"/>
-  <path d="M320.3 268.0 A84 84 0 1 1 190.7 269.1" fill="none" stroke="#FFFFFF" stroke-width="28" stroke-linecap="round"/>
-  <polygon points="227.7,231.5 165.5,245.6 213.6,293.7" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round">
+    <polygon points="186.0,246.0 234.5,330.0 137.5,330.0"/>
+    <polygon points="378.0,296.0 353.0,339.3 303.0,339.3 278.0,296.0 303.0,252.7 353.0,252.7"/>
+    <circle cx="256" cy="402" r="40"/>
+  </g>
 </svg>
