@@ -1,4 +1,4 @@
-"""Generate the integration icon: a storage bucket with a backup arrow.
+"""Generate the integration icon: a storage bucket holding three objects.
 
 Writes SVG sources to assets/icon/ and the PNGs Home Assistant serves to
 custom_components/oci_object_storage/brand/. Needs cairosvg:
@@ -12,28 +12,22 @@ from pathlib import Path
 import cairosvg
 
 
-def svg(body_dark: str, body_mid: str, rim: str, opening: str, arrow: str) -> str:
-    """Return the icon SVG in the given colours."""
-    cx, cy, r = 256, 322, 84
-    a0, a1 = math.radians(-40), math.radians(225)  # clockwise arc, gap at the top
+def _polygon(cx: float, cy: float, r: float, sides: int, start_deg: float) -> str:
+    """Return SVG points for a regular polygon."""
+    pts = []
+    for i in range(sides):
+        a = math.radians(start_deg + i * 360 / sides)
+        pts.append(f"{cx + r * math.cos(a):.1f},{cy + r * math.sin(a):.1f}")
+    return " ".join(pts)
 
-    def p(a: float) -> tuple[float, float]:
-        return cx + r * math.cos(a), cy + r * math.sin(a)
 
-    x0, y0 = p(a0)
-    # stop the shaft short so the arrowhead covers its end cleanly
-    xe, ye = p(a1 - math.radians(6))
-    # arrowhead at a1, pointing along the clockwise tangent
-    tx, ty = -math.sin(a1), math.cos(a1)
-    bx, by = p(a1)
-    nx, ny = math.cos(a1), math.sin(a1)
-    w, back, fwd = 34, 10, 44
-    head = [
-        (bx + tx * fwd, by + ty * fwd),
-        (bx - tx * back + nx * w, by - ty * back + ny * w),
-        (bx - tx * back - nx * w, by - ty * back - ny * w),
-    ]
-    pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in head)
+def svg(body_dark: str, body_mid: str, rim: str, opening: str, shapes: str) -> str:
+    """Return the icon SVG in the given colours.
+
+    The three solid shapes stand for the objects stored in the bucket.
+    """
+    triangle = _polygon(186, 302, 56, 3, -90)  # point up
+    hexagon = _polygon(328, 296, 50, 6, 0)  # flat top
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="body" x1="0" y1="0" x2="1" y2="0">
@@ -45,8 +39,11 @@ def svg(body_dark: str, body_mid: str, rim: str, opening: str, arrow: str) -> st
   <path d="M60 128 L116 452 A140 42 0 0 0 396 452 L452 128 Z" fill="url(#body)"/>
   <ellipse cx="256" cy="128" rx="196" ry="60" fill="{rim}"/>
   <ellipse cx="256" cy="132" rx="170" ry="45" fill="{opening}"/>
-  <path d="M{x0:.1f} {y0:.1f} A{r} {r} 0 1 1 {xe:.1f} {ye:.1f}" fill="none" stroke="{arrow}" stroke-width="28" stroke-linecap="round"/>
-  <polygon points="{pts}" fill="{arrow}" stroke="{arrow}" stroke-width="8" stroke-linejoin="round"/>
+  <g fill="{shapes}" stroke="{shapes}" stroke-width="14" stroke-linejoin="round">
+    <polygon points="{triangle}"/>
+    <polygon points="{hexagon}"/>
+    <circle cx="256" cy="402" r="40"/>
+  </g>
 </svg>
 '''
 
