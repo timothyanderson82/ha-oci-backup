@@ -24,8 +24,39 @@ access key, secret key and an optional folder prefix.
 ## 1. OCI setup
 
 1. **Bucket:** in the console, create a private bucket (e.g. `ha-backups`) in
-   your region, in your chosen compartment. Leave
-   versioning off so HA's retention actually frees space.
+   your region, in your chosen compartment. **Versioning must be off.**
+   With versioning on, a backup that HA deletes under its retention setting
+   isn't removed. OCI keeps it as a hidden previous version. HA can't see
+   those versions, so storage (and cost) grows with every backup ever made
+   while the bucket looks like it holds only the retained ones. One bucket
+   reached 56 GB with only 3 GB of live backups, which put it over the
+   20 GB Always Free allowance.
+
+   If versioning is already on, OCI won't set it back to `Disabled`, only to
+   `Suspended`. Suspending stops new versions being kept, but the existing
+   ones stay until you delete them:
+   ```bash
+   oci os bucket update -bn ha-backups --versioning Suspended
+
+   # List every version except the newest version of each live object
+   # (this includes delete markers), as "<name> <version-id>":
+   oci os object list-object-versions -bn ha-backups --all --output json | python3 -c '
+   import json, sys
+   versions = json.load(sys.stdin)["data"]
+   latest = {}
+   for v in versions:
+       if v["name"] not in latest or v["time-modified"] > latest[v["name"]]["time-modified"]:
+           latest[v["name"]] = v
+   for v in versions:
+       if not (latest[v["name"]] is v and not v["is-delete-marker"]):
+           print(v["name"], v["version-id"])
+   ' > old-versions.txt
+
+   # Check the list, then delete:
+   while read -r name version; do
+     oci os object delete -bn ha-backups --name "$name" --version-id "$version" --force
+   done < old-versions.txt
+   ```
 2. **User and group:** create a user `ha-backup` in a group `ha-backup`, with this policy:
    ```
    Allow group ha-backup to read buckets in compartment <compartment>
