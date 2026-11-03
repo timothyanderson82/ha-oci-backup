@@ -16,7 +16,7 @@
     "aiobotocore"
   ],
   "requirements": [
-    "aiobotocore==3.7.0"
+    "aiobotocore>=3.7.0"
   ],
   "version": "0.1.2"
 }
